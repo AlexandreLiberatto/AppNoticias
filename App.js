@@ -1,42 +1,72 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <ImageBackground source={{ uri: 'https://picsum.photos/800/300' }} style={styles.image}>
-          <TouchableOpacity onPress={() => navigation.navigate('Noticia', {
-            titulo:'Um titúlço de testeas',
-            conteudo:'Minha notícia de testes'
-          })}>
-            <Text style={styles.text}>Noticia 1</Text>
+      <View style={{ flex: 0.3 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <TouchableOpacity 
+            style={styles.imageWrapper} 
+            onPress={() => navigation.navigate('Noticia', {
+              titulo: 'Um título de teste',
+              conteudo: 'Minha notícia de testes'
+            })}
+          >
+            <ImageBackground 
+              source={{ uri: 'https://picsum.photos/800/300' }} 
+              style={styles.image}
+            >
+              <Text style={styles.text}>Notícia 1</Text>
+            </ImageBackground>
           </TouchableOpacity>
-        </ImageBackground>
-        <ImageBackground source={{ uri: 'https://picsum.photos/800/300?grayscale' }} style={styles.image}>
-        <TouchableOpacity onPress={() => navigation.navigate('Noticia')}>
-            <Text style={styles.text}>Noticia 2</Text>
+
+          <TouchableOpacity 
+            style={styles.imageWrapper}
+            onPress={() => navigation.navigate('Noticia')}
+          >
+            <ImageBackground 
+              source={{ uri: 'https://picsum.photos/800/300?grayscale' }} 
+              style={styles.image}
+            >
+              <Text style={styles.text}>Notícia 2</Text>
+            </ImageBackground>
           </TouchableOpacity>
-        </ImageBackground>
-        {/* Adicione mais ImageBackground aqui para mais slides */}
-      </ScrollView>
 
-      <View style={{flex:0.7, padding:20}}>
-
+          {/* Adicione mais TouchableOpacity com ImageBackground aqui para mais slides */}
+        </ScrollView>
       </View>
-      
+
+      <View style={{ flex: 0.7, padding: 20 }}>
+        <View style={styles.headerLine}></View>
+        <Text style={styles.headerText}>Mais Notícias</Text>
+
+        <ScrollView contentContainerStyle={styles.scrollViewContent} style={{ flex: 1 }}>
+          <View style={styles.newsItem}>
+            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigation.navigate('Noticia', {
+              titulo: 'Um título de teste',
+              conteudo: 'Minha notícia de testes'
+            })}>
+              <Image source={{ uri: 'https://picsum.photos/800/300?grayscale' }} style={styles.newsImage} />
+              <Text style={styles.newsText}>Minha notícia de teste.</Text>
+            </TouchableOpacity>
+          </View>
+          {/* Adicione mais View aqui para mais notícias */}
+        </ScrollView>
+      </View>
     </View>
-    
   );
 }
 
 function NoticiaScreen({ route, navigation }) {
+  const { titulo, conteudo } = route.params || {};
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>{route.params.titulo}</Text>
-      <Text>{route.params.conteudo}</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+      <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{titulo}</Text>
+      <Text style={{ marginTop: 10 }}>{conteudo}</Text>
     </View>
   );
 }
@@ -60,7 +90,6 @@ const styles = StyleSheet.create({
     height: 300,
     resizeMode: 'cover',
     justifyContent: 'flex-end',
-    marginRight: 10, // Espaço entre os slides
   },
   text: {
     color: 'white',
@@ -68,5 +97,33 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fundo semitransparente para o texto
     padding: 10,
+  },
+  imageWrapper: {
+    marginRight: 10, // Espaço entre os slides
+  },
+  headerLine: {
+    width: 50,
+    height: 2,
+    backgroundColor: '#069',
+    marginBottom: 10,
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  scrollViewContent: {
+    padding: 20,
+  },
+  newsItem: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  newsImage: {
+    width: 100,
+    height: 100,
+  },
+  newsText: {
+    padding: 10,
+    flex: 1,
   }
 });
