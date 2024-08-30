@@ -1,9 +1,18 @@
+import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {db} from './firebase';
 
 function HomeScreen({ navigation }) {
+
+  const [noticias, setarNoticias] = useState([]);
+
+  useEffect(() => {
+    //
+  })
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 0.3 }}>
